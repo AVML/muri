@@ -46,12 +46,14 @@ func Decode(s string) ([]string, error) {
 		return nil, errors.New("Invalid muri")
 	}
 	sa := strings.Split(ps, ",")
+	if len(sa) == 0 {
+		return nil, errors.New("Invalid muri")
+	}
 	for k := range sa {
-		b, err := url.QueryUnescape(sa[k])
+		sa[k], err = url.QueryUnescape(sa[k])
 		if err != nil {
 			return nil, err
 		}
-		sa[k] = string(b)
 	}
 	return sa, nil
 }
